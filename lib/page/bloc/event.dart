@@ -6,9 +6,13 @@ abstract class CounterEvent {
 }
 
 class CounterIncrementPressed extends CounterEvent {
-  const CounterIncrementPressed();
+  CounterIncrementPressed() {
+    print('jusong CounterIncrementPressed in event');
+  }
 }
 
 class CounterDecrementPressed extends CounterEvent {
-  const CounterDecrementPressed();
+  CounterDecrementPressed() {
+    print('jusong CounterDecrementPressed in event');
+  }
 }
