@@ -41,6 +41,8 @@ dependencies:
   equatable:
   bloc_concurrency:
   rxdart:
+  shared_preferences: ^2.0.3
+  get_it:
 
 dev_dependencies:
   flutter_test:

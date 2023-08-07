@@ -9,78 +9,88 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<CounterBloc>()
+        .add(const InitializeView());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('counter - Bloc'),
       ),
-      body: Stack(
-        children: [
-          //
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocBuilder<CounterBloc, CounterState>(
+          builder: (context, state) {
+          return Stack(
             children: [
-              //  `CounterBloc`을 필요로 하는 하위 위젯을 반환하는 빌더 패턴으로 감싼다.
-              BlocBuilder<CounterBloc, CounterState>(
-                builder: (context, state) {
-                  print('jusong (3) Current count: ${state} in form');
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            // 이벤트 핸들러 등록
-                            onPressed: () {
-                              context
-                                  .read<CounterBloc>()
-                                  .add(const CounterPressed(CounterStateType.DECREMENT));
-                              print('jusong onPressed 감소 in form');
-                            }, // (1) CounterBloc에 이벤트 추가
-                            child: const Text(
-                              '-',
-                              style: TextStyle(fontSize: 32),
+              //
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //  `CounterBloc`을 필요로 하는 하위 위젯을 반환하는 빌더 패턴으로 감싼다.
+                 Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                // 이벤트 핸들러 등록
+                                onPressed: () {
+                                  context
+                                      .read<CounterBloc>()
+                                      .add(const CounterPressed(CounterStateType.DECREMENT));
+                                  print('jusong onPressed 감소 in form');
+                                }, // (1) CounterBloc에 이벤트 추가
+                                child: const Text(
+                                  '-',
+                                  style: TextStyle(fontSize: 32),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          // 상태값 출력
-                          state.vm.counter.toString(),
-                          style: const TextStyle(fontSize: 36),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<CounterBloc>()
-                                  .add(const CounterPressed(CounterStateType.INCREMENT));
-                              print('jusong onPressed 증가 in form');
-                            },
-                            child: const Text(
-                              '+',
-                              style: TextStyle(fontSize: 32),
+                          Expanded(
+                            child: Text(
+                              // 상태값 출력
+                              state.vm.counter.toString(),
+                              style: const TextStyle(fontSize: 36),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              )
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  context
+                                      .read<CounterBloc>()
+                                      .add(const CounterPressed(CounterStateType.INCREMENT));
+                                  print('jusong onPressed 증가 in form');
+                                },
+                                child: const Text(
+                                  '+',
+                                  style: TextStyle(fontSize: 32),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                  )
+                ],
+              ),
+              if (state is DataLoadInProgress) const Center(child: CircularProgressIndicator()) else const SizedBox()
             ],
-          ),
-        ],
+            // data load in prograss 면 띄우기
+          );
+        }
       ),
     );
   }
