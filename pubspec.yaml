@@ -39,6 +39,8 @@ dependencies:
   bloc: ^8.1.2
   meta: ^1.9.1
   equatable:
+  bloc_concurrency:
+  rxdart:
 
 dev_dependencies:
   flutter_test:

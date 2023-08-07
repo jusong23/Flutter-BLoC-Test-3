@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //  `CounterBloc`을 필요로 하는 하위 위젯을 반환하는 빌더 패턴으로 감싼다.
               BlocBuilder<CounterBloc, CounterState>(
                 builder: (context, state) {
-                  print('jusong Current count: ${state} in form');
+                  print('jusong (3) Current count: ${state} in form');
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () {
                               context
                                   .read<CounterBloc>()
-                                  .add(CounterDecrementPressed());
+                                  .add(const CounterPressed(CounterStateType.DECREMENT));
                               print('jusong onPressed 감소 in form');
                             }, // (1) CounterBloc에 이벤트 추가
                             child: const Text(
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         child: Text(
                           // 상태값 출력
-                          state.count.toString(),
+                          state.vm.counter.toString(),
                           style: const TextStyle(fontSize: 36),
                           textAlign: TextAlign.center,
                         ),
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () {
                               context
                                   .read<CounterBloc>()
-                                  .add(CounterIncrementPressed());
+                                  .add(const CounterPressed(CounterStateType.INCREMENT));
                               print('jusong onPressed 증가 in form');
                             },
                             child: const Text(
