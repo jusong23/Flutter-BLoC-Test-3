@@ -30,7 +30,7 @@ class CounterBloc extends BaseBloc<CounterEvent, CounterState> {
     if (event is InitializeView) {
       await handleViewStart(event, emit, state);
     }
-    if (event is CounterPressed) {
+    else if (event is CounterPressed) {
       if (event.counterStateType == CounterStateType.INCREMENT) {
         await IncrementCounterState(event, emit, state);
       } else if (event.counterStateType == CounterStateType.DECREMENT) {
@@ -56,9 +56,13 @@ class CounterBloc extends BaseBloc<CounterEvent, CounterState> {
       Emitter<CounterState> emit, CounterState state) async {
     emit(DataLoadInProgress(state.vm));
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      print("0808 before copy state.vm.counter.hashCode: ${state.vm.counter.hashCode}");
+      await Future.delayed(const Duration(milliseconds: 300));
       var count = state.vm.counter + 1;
       emit(CounterIncrement(state.vm.copyWith(counter: count)));
+      print("0808 after copy state.vm.counter.hashCode ${state.vm.counter.hashCode}");
+      // 변경한 부분만 인스턴스에 반영되는 얕은 복사 (동일한 메모리 주소를 공유하기에 메모리 효율성 증가)
+      // 원본 객체와 복사본 사이에서 객체 내용이 변경되면 두 객체 모두에 영향
       await _pref.setCount(count);
 
     } on Exception catch (e, stacktrace) {
@@ -72,7 +76,8 @@ class CounterBloc extends BaseBloc<CounterEvent, CounterState> {
       Emitter<CounterState> emit, CounterState state) async {
     emit(DataLoadInProgress(state.vm));
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 300));
+      var count = state.vm.counter - 1;
       emit(CounterDecrement(state.vm.copyWith(counter: state.vm.counter - 1)));
       await _pref.setCount(state.vm.counter-1);
     } on Exception catch (e, stacktrace) {

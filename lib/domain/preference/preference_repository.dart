@@ -10,6 +10,7 @@ class PreferenceRepository extends PreferenceDataSource {
     final prefs = await SharedPreferences.getInstance();
     int? result;
     result = prefs.getInt(_PREF_COUNT);
+    print('jusong getCount()');
     return result;
   }
 
@@ -17,6 +18,7 @@ class PreferenceRepository extends PreferenceDataSource {
   Future<void> setCount(int count) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_PREF_COUNT, count);
+    print('jusong setCount()');
   }
 
 }

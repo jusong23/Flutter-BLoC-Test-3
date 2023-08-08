@@ -65,8 +65,6 @@ class LoadInitialCounter extends DefaultState {
   const LoadInitialCounter(CounterViewModel vm) : super(vm);
 }
 
-
-
 class RequestCounterFailure extends CounterState {
   final ErrorInfo errorInfo;
 
